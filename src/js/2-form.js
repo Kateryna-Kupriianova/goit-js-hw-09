@@ -28,14 +28,14 @@ function fillFromLocalStorage() {
     const savedData = localStorage.getItem('feedback-form-state');
     if (savedData) {
         formData = JSON.parse(savedData);
-        emailInput.value = formData.email;
-        messageTextarea.value = formData.message;
+        emailInput.value = formData.email.trim();
+        messageTextarea.value = formData.message.trim();
     }
 }
 
 
 form.addEventListener('input', (event) => {
-    formData[event.target.name] = event.target.value;
+    formData[event.target.name] = event.target.value.trim();
     addToLocalStorage();
 });
 
@@ -43,8 +43,11 @@ form.addEventListener('input', (event) => {
 form.addEventListener('submit', (event) => {
     event.preventDefault();
 
+    formData.email = formData.email.trim();
+    formData.message = formData.message.trim();
+
     if (!formData.email || !formData.message) {
-        alert('Fill please all fields');
+        alert('Please fill in all fields');
     } else {
         console.log(JSON.parse(localStorage.getItem('feedback-form-state')));
         localStorage.removeItem('feedback-form-state');
